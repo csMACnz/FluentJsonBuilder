@@ -20,6 +20,21 @@ namespace csMACnz.FluentJsonBuilder
             Data = new JObject();
         }
 
+        public JsonObjectBuilder With(string propertyName)
+        {
+            return With(propertyName, SetTo.Null);
+        }
+
+        public JsonObjectBuilder And(string propertyName)
+        {
+            return With(propertyName);
+        }
+
+        public JsonObjectBuilder And(string propertyName, Func<SetTo> valueTarget)
+        {
+            return With(propertyName, valueTarget);
+        }
+
         public JsonObjectBuilder With(string propertyName, Func<SetTo> valueTarget)
         {
             return With(propertyName, valueTarget());
@@ -29,6 +44,11 @@ namespace csMACnz.FluentJsonBuilder
         {
             Data[propertyName] = valueTarget.GetValue();
             return this;
+        }
+
+        public JsonObjectBuilder And(string propertyName, SetTo valueTarget)
+        {
+            return With(propertyName, valueTarget);
         }
 
         public static implicit operator string(JsonObjectBuilder builder)
