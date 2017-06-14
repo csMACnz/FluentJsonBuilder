@@ -3,13 +3,11 @@ build_script:
 - ps: >-
     dotnet restore
 
-    dotnet build -c Release .\src\csMACnz.FluentJsonBuilder\csMACnz.FluentJsonBuilder.csproj /property:VersionPrefix=1.0.1
+    dotnet build -c Release csMACnz.FluentJsonBuilder.sln /property:VersionPrefix=$env:APPVEYOR_BUILD_VERSION
 
-    #TODO: Test
+    dotnet test -c Release .\test\csMACnz.FluentJsonBuilder.Tests\csMACnz.FluentJsonBuilder.Tests.csproj
 
-    cd ..\..\
-
-    dotnet pack -c Release -o ${pwd} .\src\csMACnz.FluentJsonBuilder\csMACnz.FluentJsonBuilder.csproj /property:VersionPrefix=1.0.1
+    dotnet pack -c Release -o ${pwd} .\src\csMACnz.FluentJsonBuilder\csMACnz.FluentJsonBuilder.csproj /property:VersionPrefix=$env:APPVEYOR_BUILD_VERSION
 artifacts:
 - path: csMACnz.FluentJsonBuilder.*.nupkg
   name: nuget   
