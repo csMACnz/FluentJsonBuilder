@@ -12,7 +12,7 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>full</DebugType>
-    <AssemblyName>XOBot.SlackApi</AssemblyName>
+    <AssemblyName>csMACnz.FluentJsonBuilder</AssemblyName>
     <PackageId>csMACnz.FluentJsonBuilder</PackageId>
     <PackageTags>json;fluent;json string</PackageTags>
   </PropertyGroup>
