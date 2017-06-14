@@ -1,0 +1,15 @@
+version: 1.0.{build}
+build_script:
+- ps: >-
+    dotnet restore
+
+    dotnet build -c Release .\src\csMACnz.FluentJsonBuilder\csMACnz.FluentJsonBuilder.csproj /property:VersionPrefix=1.0.1
+
+    #TODO: Test
+
+    cd ..\..\
+
+    dotnet pack -c Release -o ${pwd} .\src\csMACnz.FluentJsonBuilder\csMACnz.FluentJsonBuilder.csproj /property:VersionPrefix=1.0.1
+artifacts:
+- path: csMACnz.FluentJsonBuilder.*.nupkg
+  name: nuget   

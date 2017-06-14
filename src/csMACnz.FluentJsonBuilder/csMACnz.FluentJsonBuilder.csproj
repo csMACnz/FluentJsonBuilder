@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Product>FluentJsonBuilder</Product>
+    <Copyright>Copyright © csMAcnz 2017</Copyright>
+    <Description></Description>
+    <AssemblyTitle>FluentJsonBuilder</AssemblyTitle>
+    <NeutralLanguage>en-NZ</NeutralLanguage>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Authors>dev-markc</Authors>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <AssemblyName>XOBot.SlackApi</AssemblyName>
+    <PackageId>csMACnz.FluentJsonBuilder</PackageId>
+    <PackageTags>json;fluent;json string</PackageTags>
+  </PropertyGroup>
+
+</Project>
