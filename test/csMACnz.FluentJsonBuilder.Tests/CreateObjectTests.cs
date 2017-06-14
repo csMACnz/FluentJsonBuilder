@@ -19,6 +19,5 @@ namespace csMACnz.FluentJsonBuilder.Tests
             string document = JsonBuilder.CreateObject();
             Assert.Equal("{}", document);
         }
-
     }
 }
