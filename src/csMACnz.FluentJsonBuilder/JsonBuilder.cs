@@ -20,6 +20,11 @@ namespace csMACnz.FluentJsonBuilder
             Data = new JObject();
         }
 
+        public JsonObjectBuilder With(string propertyName, Func<SetTo> valueTarget)
+        {
+            return With(propertyName, valueTarget());
+        }
+
         public JsonObjectBuilder With(string propertyName, SetTo valueTarget)
         {
             Data[propertyName] = valueTarget.GetValue();
@@ -30,32 +35,35 @@ namespace csMACnz.FluentJsonBuilder
         {
             return builder.ToString();
         }
+
         public override string ToString()
         {
             return Data.ToString(Formatting.None);
         }
     }
 
-    public abstract class SetTo
+    public class SetTo
     {
-        public static SetTo Value(JToken v)
+        Func<JToken> _function;
+
+        private SetTo(Func<JToken> function)
         {
-            return new ValueSetter(v);
+            _function = function;
         }
 
-        internal abstract JToken GetValue();
-
-        private sealed class ValueSetter : SetTo
+        public static SetTo Null()
         {
-            private JToken _value;
-            internal ValueSetter(JToken value)
-            {
-                _value = value;
-            }
-            internal override JToken GetValue()
-            {
-                return _value;
-            }
+            return new SetTo(() => null);
+        }
+
+        public static SetTo Value(JToken v)
+        {
+            return new SetTo(() => v);
+        }
+
+        public JToken GetValue()
+        {
+            return _function();
         }
     }
 }
