@@ -1,5 +1,6 @@
 using Xunit;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
@@ -74,6 +75,74 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 .And("eighth");
 
             Assert.Equal(@"{""first"":""test1"",""second"":""test2"",""third"":null,""fourth"":null,""fifth"":null,""sixth"":null,""seventh"":null,""eighth"":null}", document);
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToRandomGuid_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.RandomGuid())
+                .And("second", SetTo.Value("test2"));
+
+            var guidRegex = @"[0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}";
+            Assert.True(Regex.IsMatch(document, $@"{{""first"":""{guidRegex}"",""second"":""test2""}}"));
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToRandomGuidFunction_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.RandomGuid)
+                .And("second", SetTo.Value("test2"));
+
+            var guidRegex = @"[0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}";
+            Assert.True(Regex.IsMatch(document, $@"{{""first"":""{guidRegex}"",""second"":""test2""}}"));
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToTrue_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.True())
+                .And("second", SetTo.Value("test2"));
+
+            Assert.Equal($@"{{""first"":true,""second"":""test2""}}", document);
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToTrueFunction_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.True)
+                .And("second", SetTo.Value("test2"));
+
+            Assert.Equal($@"{{""first"":true,""second"":""test2""}}", document);
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToFalse_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.False())
+                .And("second", SetTo.Value("test2"));
+
+            Assert.Equal($@"{{""first"":false,""second"":""test2""}}", document);
+        }
+
+        [Fact]
+        public void AddingPropertiesUsingSetToFalseFunction_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.False)
+                .And("second", SetTo.Value("test2"));
+
+            Assert.Equal($@"{{""first"":false,""second"":""test2""}}", document);
         }
     }
 }

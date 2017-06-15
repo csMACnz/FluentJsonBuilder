@@ -81,6 +81,21 @@ namespace csMACnz.FluentJsonBuilder
             return new SetTo(() => v);
         }
 
+        public static SetTo RandomGuid()
+        {
+            return new SetTo(() => Guid.NewGuid().ToString().ToUpper());
+        }
+
+        public static SetTo True()
+        {
+            return new SetTo(() => true);
+        }
+
+        public static SetTo False()
+        {
+            return new SetTo(() => false);
+        }
+
         public JToken GetValue()
         {
             return _function();
