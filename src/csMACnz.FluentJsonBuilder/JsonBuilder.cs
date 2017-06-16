@@ -12,36 +12,44 @@ namespace csMACnz.FluentJsonBuilder
         }
     }
 
-    public class JsonObjectBuilder
+    public class JsonObjectBuilder : JsonObjectBuilder<JsonObjectBuilder>
+    {
+        internal JsonObjectBuilder()
+        {
+        }
+    }
+
+    public abstract class JsonObjectBuilder<T>
+    where T : JsonObjectBuilder<T>
     {
         private readonly JObject Data;
-        internal JsonObjectBuilder()
+        protected JsonObjectBuilder()
         {
             Data = new JObject();
         }
 
-        public JsonObjectBuilder With(string propertyName)
+        public T With(string propertyName)
         {
             return With(propertyName, SetTo.Null);
         }
 
-        public JsonObjectBuilder And(string propertyName)
+        public T And(string propertyName)
         {
             return With(propertyName);
         }
 
-        public JsonObjectBuilder With(string propertyName, SetTo valueTarget)
+        public T With(string propertyName, SetTo valueTarget)
         {
             Data[propertyName] = valueTarget.GetValue();
-            return this;
+            return (T)this;
         }
 
-        public JsonObjectBuilder And(string propertyName, SetTo valueTarget)
+        public T And(string propertyName, SetTo valueTarget)
         {
             return With(propertyName, valueTarget);
         }
 
-        public static implicit operator string(JsonObjectBuilder builder)
+        public static implicit operator string(JsonObjectBuilder<T> builder)
         {
             return builder.ToString();
         }
