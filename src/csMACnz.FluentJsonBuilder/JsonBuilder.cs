@@ -30,16 +30,6 @@ namespace csMACnz.FluentJsonBuilder
             return With(propertyName);
         }
 
-        public JsonObjectBuilder And(string propertyName, Func<SetTo> valueTarget)
-        {
-            return With(propertyName, valueTarget);
-        }
-
-        public JsonObjectBuilder With(string propertyName, Func<SetTo> valueTarget)
-        {
-            return With(propertyName, valueTarget());
-        }
-
         public JsonObjectBuilder With(string propertyName, SetTo valueTarget)
         {
             Data[propertyName] = valueTarget.GetValue();
@@ -59,46 +49,6 @@ namespace csMACnz.FluentJsonBuilder
         public override string ToString()
         {
             return Data.ToString(Formatting.None);
-        }
-    }
-
-    public class SetTo
-    {
-        Func<JToken> _function;
-
-        private SetTo(Func<JToken> function)
-        {
-            _function = function;
-        }
-
-        public static SetTo Null()
-        {
-            return new SetTo(() => null);
-        }
-
-        public static SetTo Value(JToken v)
-        {
-            return new SetTo(() => v);
-        }
-
-        public static SetTo RandomGuid()
-        {
-            return new SetTo(() => Guid.NewGuid().ToString().ToUpper());
-        }
-
-        public static SetTo True()
-        {
-            return new SetTo(() => true);
-        }
-
-        public static SetTo False()
-        {
-            return new SetTo(() => false);
-        }
-
-        public JToken GetValue()
-        {
-            return _function();
         }
     }
 }
