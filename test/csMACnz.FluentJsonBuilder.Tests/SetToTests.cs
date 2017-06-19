@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
-    public class SetValueTests
+    public class SetToTests
     {
         [Fact]
         public void SettingEmptyStringProperty_JsonContainsEmptyPropertyName()
