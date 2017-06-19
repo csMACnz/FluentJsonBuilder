@@ -34,6 +34,11 @@ namespace csMACnz.FluentJsonBuilder
             return new SetTo(() => false);
         };
 
+        public static SetToFunc EmptyArray => () =>
+        {
+            return new SetTo(() => new JArray());
+        };
+
         public JToken GetValue()
         {
             return _function();
