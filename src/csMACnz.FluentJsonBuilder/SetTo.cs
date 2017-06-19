@@ -34,7 +34,7 @@ namespace csMACnz.FluentJsonBuilder
             return new SetTo(() => false);
         };
 
-        public static SetToFunc EmptyArray => () =>
+        public static SetToFunc AnEmptyArray => () =>
         {
             return new SetTo(() => new JArray());
         };
@@ -47,6 +47,27 @@ namespace csMACnz.FluentJsonBuilder
         public static implicit operator SetTo(SetToFunc valueFunc)
         {
             return valueFunc();
+        }
+
+        public static SetTo AnArrayContaining(params Action<JsonObjectBuilder>[] setValues)
+        {
+            return AnArrayContaining<JsonObjectBuilder>(setValues);
+        }
+
+        public static SetTo AnArrayContaining<TItemBuilder>(params Action<TItemBuilder>[] setValues)
+            where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
+        {
+            return new SetTo(() =>
+            {
+                var jarray = new JArray();
+                foreach (var updateAction in setValues)
+                {
+                    var itemBuilder = new TItemBuilder();
+                    updateAction(itemBuilder);
+                    jarray.Add(itemBuilder.GetObject());
+                }
+                return jarray;
+            });
         }
     }
 }
