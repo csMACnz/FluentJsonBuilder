@@ -2,6 +2,7 @@ using Xunit;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
@@ -35,6 +36,30 @@ namespace csMACnz.FluentJsonBuilder.Tests
             Assert.Equal(@"{""id"":""ID123"",""tags"":[{""key"":""Importance"",""value"":""High""},{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}],""name"":""Test""}", document);
         }
 
+        [Fact]
+        public void CanSetupTreeStructureWithUpdates()
+        {
+            string document = ComplexObject
+            .Create()
+            .WithId(SetTo.Value("ID123"))
+            .WithTags(
+                tag1 => tag1
+                    .WithKey(SetTo.Value("Importance"))
+                    .WithValue(SetTo.Value("High")),
+                tag2 => tag2
+                    .WithKey(SetTo.Value("Level"))
+                    .WithValue(SetTo.Null),
+                tag3 => tag3
+                    .WithKey(SetTo.Value("Games"))
+                    .WithValue(SetTo.Null))
+            .WithName(SetTo.Value("Test"))
+            .UpdateExistingTagAtIndex(1,
+                tag2 => tag2
+                    .WithValue(SetTo.Value("Medium")));
+
+            Assert.Equal(@"{""id"":""ID123"",""tags"":[{""key"":""Importance"",""value"":""High""},{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}],""name"":""Test""}", document);
+        }
+
         private class ComplexObject : JsonObjectBuilder<ComplexObject>
         {
             public static ComplexObject Create()
@@ -56,10 +81,26 @@ namespace csMACnz.FluentJsonBuilder.Tests
             {
                 return With("tags", SetTo.AnArrayContaining<TagObject>(initialisers));
             }
+            
+            internal ComplexObject UpdateExistingTagAtIndex(int index, Action<TagObject> update)
+            {
+                return With("tags", Updated.AtIndex<TagObject>(index, update));
+            }
         }
 
         private class TagObject : JsonObjectBuilder<TagObject>
         {
+
+            public TagObject()
+            : base()
+            {
+            }
+
+            public TagObject(JObject jObject)
+            : base(jObject)
+            {
+            }
+
             internal TagObject WithKey(SetTo setTo)
             {
                 return With("key", setTo);

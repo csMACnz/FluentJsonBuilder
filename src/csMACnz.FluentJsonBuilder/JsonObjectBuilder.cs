@@ -6,7 +6,7 @@ namespace csMACnz.FluentJsonBuilder
     public abstract class JsonObjectBuilder<T>
     where T : JsonObjectBuilder<T>
     {
-        private readonly JObject Data;
+        private JObject Data;
         protected JsonObjectBuilder()
         : this(new JObject())
         {
@@ -20,6 +20,10 @@ namespace csMACnz.FluentJsonBuilder
         internal JObject GetObject()
         {
             return Data;
+        }
+        internal void Rebase(JObject item)
+        {
+            Data = item;
         }
 
         public T With(string propertyName)

@@ -82,19 +82,21 @@ namespace csMACnz.FluentJsonBuilder
 
         public static Updated AtIndex(int index, Action<JsonObjectBuilder> update)
         {
-            return AtIndex<JsonObjectBuilder>(index, j => new JsonObjectBuilder(j), update);
+            return AtIndex<JsonObjectBuilder>(index, update);
         }
+        
         public static Updated AtIndex<TItemBuilder>(
             int index,
-            Func<JObject, TItemBuilder> wrapper,
             Action<TItemBuilder> update)
-            where TItemBuilder : JsonObjectBuilder<TItemBuilder>
+            where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
         {
             return new Updated(
                 array =>
                 {
                     JObject item = (JObject)((JArray)array)[index];
-                    update(wrapper(item));
+                    var builder= new TItemBuilder();
+                    builder.Rebase(item);
+                    update(builder);
                     return array;
                 });
         }
