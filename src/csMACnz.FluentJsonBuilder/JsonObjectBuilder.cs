@@ -8,8 +8,13 @@ namespace csMACnz.FluentJsonBuilder
     {
         private readonly JObject Data;
         protected JsonObjectBuilder()
+        : this(new JObject())
         {
-            Data = new JObject();
+        }
+
+        protected JsonObjectBuilder(JObject jObject)
+        {
+            Data = jObject;
         }
 
         internal JObject GetObject()
@@ -38,6 +43,17 @@ namespace csMACnz.FluentJsonBuilder
             return With(propertyName, valueTarget);
         }
 
+        public T With(string propertyName, Updated updateTarget)
+        {
+            Data[propertyName] = updateTarget.Update(Data[propertyName]);
+            return (T)this;
+        }
+
+        public T And(string propertyName, Updated updateTarget)
+        {
+            return With(propertyName, updateTarget);
+        }
+
         public static implicit operator string(JsonObjectBuilder<T> builder)
         {
             return builder.ToString();
@@ -51,5 +67,13 @@ namespace csMACnz.FluentJsonBuilder
 
     public class JsonObjectBuilder : JsonObjectBuilder<JsonObjectBuilder>
     {
+        public JsonObjectBuilder()
+        {
+        }
+
+        public JsonObjectBuilder(JObject j)
+        : base(j)
+        {
+        }
     }
 }

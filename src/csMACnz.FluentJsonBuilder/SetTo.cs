@@ -70,4 +70,38 @@ namespace csMACnz.FluentJsonBuilder
             });
         }
     }
+
+    public class Updated
+    {
+        Func<JToken, JToken> _function;
+
+        private Updated(Func<JToken, JToken> function)
+        {
+            _function = function;
+        }
+
+        public static Updated AtIndex(int index, Action<JsonObjectBuilder> update)
+        {
+            return AtIndex<JsonObjectBuilder>(index, j => new JsonObjectBuilder(j), update);
+        }
+        public static Updated AtIndex<TItemBuilder>(
+            int index,
+            Func<JObject, TItemBuilder> wrapper,
+            Action<TItemBuilder> update)
+            where TItemBuilder : JsonObjectBuilder<TItemBuilder>
+        {
+            return new Updated(
+                array =>
+                {
+                    JObject item = (JObject)((JArray)array)[index];
+                    update(wrapper(item));
+                    return array;
+                });
+        }
+
+        public JToken Update(JToken jToken)
+        {
+            return _function(jToken);
+        }
+    }
 }
