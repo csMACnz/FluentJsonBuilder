@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -34,6 +35,12 @@ namespace csMACnz.FluentJsonBuilder
         public T And(string propertyName)
         {
             return With(propertyName);
+        }
+
+        public T Without(string propertyName)
+        {
+            Data.Remove(propertyName);
+            return (T)this;
         }
 
         public T With(string propertyName, SetTo valueTarget)
