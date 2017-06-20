@@ -33,6 +33,17 @@ namespace csMACnz.FluentJsonBuilder
                 });
         }
 
+        public static Updated ByRemovingAtIndex(int index)
+        {
+            return new Updated(
+                token =>
+                {
+                    var array = (JArray)token;
+                    array.RemoveAt(index);
+                    return array;
+                });
+        }
+
         public static Updated By(Func<JToken, JToken> update)
         {
             return new Updated(update);

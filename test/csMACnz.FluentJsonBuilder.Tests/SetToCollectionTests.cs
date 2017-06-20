@@ -73,5 +73,22 @@ namespace csMACnz.FluentJsonBuilder.Tests
 
             Assert.Equal($@"{{""first"":[{{""first"":""hasValue""}},{{""second"":""alsoHasAValue""}}],""second"":""test2""}}", document);
         }
+
+        
+        [Fact]
+        public void SetToCollectionThenUpdatedByRemoving_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.AnArrayContaining(
+                    item => item.With("aProperty", SetTo.Value("AValue")),
+                    item => { }))
+                .And("second", SetTo.Value("test2"))
+                .With("first", Updated.ByRemovingAtIndex(0))
+                .With("first", Updated.AtIndex(0,
+                    item => item.With("second", SetTo.Value("NewValue"))));
+
+            Assert.Equal($@"{{""first"":[{{""second"":""NewValue""}}],""second"":""test2""}}", document);
+        }
     }
 }
