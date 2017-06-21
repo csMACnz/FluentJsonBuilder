@@ -38,6 +38,23 @@ namespace csMACnz.FluentJsonBuilder.Tests
             Assert.Equal($@"{{""first"":[{{""second"":""NewValue""}}],""second"":""test2""}}", document);
         }
 
+        [Fact]
+        public void SetToCollectionThenUpdatedByAppending_ExpectedJsonPatternReturned()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("first", SetTo.AnArrayContaining(
+                    item => item.With("number", SetTo.Value("one")),
+                    item => { })                )
+                .And("second", SetTo.Value("test2"))
+                .With("first", Updated.WithAdditionalArrayItems(
+                    item => item.With("number", SetTo.Value("three"))))
+                .With("first", Updated.AtIndex(1,
+                    item => item.With("aNother", SetTo.Value("NewValue"))));
+
+            Assert.Equal($@"{{""first"":[{{""number"":""one""}},{{""aNother"":""NewValue""}},{{""number"":""three""}}],""second"":""test2""}}", document);
+        }
+
 
         [Fact]
         public void SetToCollectionWithOneEmptyObject_ExpectedJsonPatternReturned()
