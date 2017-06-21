@@ -64,15 +64,6 @@ namespace csMACnz.FluentJsonBuilder.Tests
 
         private class TagObject : JsonObjectBuilder<TagObject>
         {
-            public TagObject()
-            {
-            }
-
-            public TagObject(JObject jObject)
-                : base(jObject)
-            {
-            }
-
             internal TagObject WithKey(Modifier modifier)
             {
                 return With("key", modifier);

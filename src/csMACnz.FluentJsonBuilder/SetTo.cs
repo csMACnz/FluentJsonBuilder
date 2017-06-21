@@ -18,9 +18,9 @@ namespace csMACnz.FluentJsonBuilder
 
         public static Modifier.ModifierFunc AnEmptyArray => () => { return new Modifier(_ => new JArray()); };
 
-        public static Modifier Value(JToken v)
+        public static Modifier Value(JToken value)
         {
-            return new Modifier(_ => v);
+            return new Modifier(_ => value);
         }
 
         public static Modifier AnArrayContaining(params Action<JsonObjectBuilder>[] setValues)
