@@ -9,13 +9,8 @@ namespace csMACnz.FluentJsonBuilder
         private JObject Data;
 
         protected JsonObjectBuilder()
-            : this(new JObject())
         {
-        }
-
-        protected JsonObjectBuilder(JObject jObject)
-        {
-            Data = jObject;
+            Data = new JObject();
         }
 
         internal JObject GetObject()
@@ -68,13 +63,5 @@ namespace csMACnz.FluentJsonBuilder
 
     public class JsonObjectBuilder : JsonObjectBuilder<JsonObjectBuilder>
     {
-        public JsonObjectBuilder()
-        {
-        }
-
-        public JsonObjectBuilder(JObject j)
-            : base(j)
-        {
-        }
     }
 }
