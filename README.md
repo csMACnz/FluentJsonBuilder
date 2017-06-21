@@ -1,5 +1,11 @@
-csMACnz.FluentJsonBuilder
+FluentJsonBuilder
 ================
+
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://csmacnz.mit-license.org)
+[![NuGet](https://img.shields.io/nuget/v/csMACnz.FluentJsonBuilder.svg)](https://www.nuget.org/packages/csMACnz.FluentJsonBuilder)
+[![NuGet](https://img.shields.io/nuget/dt/csMACnz.FluentJsonBuilder.svg)](https://www.nuget.org/packages/csMACnz.FluentJsonBuilder)
+
+[![AppVeyor Build status](https://img.shields.io/appveyor/ci/MarkClearwater/fluentjsonbuilder.svg)](https://ci.appveyor.com/project/MarkClearwater/fluentjsonbuilder)
 
 A json string builder, built on `Newtonsoft.Json`'s JToken, using a Fluent DSL syntax, in C#.
 
