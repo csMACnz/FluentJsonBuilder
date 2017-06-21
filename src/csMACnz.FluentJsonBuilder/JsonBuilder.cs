@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace csMACnz.FluentJsonBuilder
+﻿namespace csMACnz.FluentJsonBuilder
 {
     public class JsonBuilder
     {

@@ -1,5 +1,5 @@
-using Xunit;
 using System.Text.RegularExpressions;
+using Xunit;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
@@ -28,5 +28,5 @@ namespace csMACnz.FluentJsonBuilder.Tests
             var guidRegex = @"[0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}";
             Assert.True(Regex.IsMatch(document, $@"{{""first"":""{guidRegex}"",""second"":""test2""}}"));
         }
-}
+    }
 }

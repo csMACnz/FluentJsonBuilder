@@ -30,7 +30,9 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 .With("seventh")
                 .And("eighth");
 
-            Assert.Equal(@"{""first"":""test1"",""second"":""test2"",""third"":null,""fourth"":null,""fifth"":null,""sixth"":null,""seventh"":null,""eighth"":null}", document);
+            Assert.Equal(
+                @"{""first"":""test1"",""second"":""test2"",""third"":null,""fourth"":null,""fifth"":null,""sixth"":null,""seventh"":null,""eighth"":null}",
+                document);
         }
-}
+    }
 }

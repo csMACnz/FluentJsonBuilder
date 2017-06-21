@@ -5,14 +5,15 @@ namespace csMACnz.FluentJsonBuilder
 {
     public sealed class Modifier
     {
-        Func<JToken, JToken> _function;
+        public delegate Modifier ModifierFunc();
+
+        private readonly Func<JToken, JToken> _function;
 
         internal Modifier(Func<JToken, JToken> function)
         {
             _function = function;
         }
 
-        public delegate Modifier ModifierFunc();
         public static implicit operator Modifier(ModifierFunc valueFunc)
         {
             return valueFunc();
@@ -23,6 +24,5 @@ namespace csMACnz.FluentJsonBuilder
         {
             return _function(jToken);
         }
-
     }
 }

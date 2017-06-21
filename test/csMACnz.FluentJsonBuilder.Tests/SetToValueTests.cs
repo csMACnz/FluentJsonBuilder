@@ -1,20 +1,9 @@
 using Xunit;
-using Newtonsoft.Json;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
     public class SetToValueTests
     {
-        [Fact]
-        public void SettingEmptyStringProperty_JsonContainsEmptyPropertyName()
-        {
-            string document = JsonBuilder
-                .CreateObject()
-                .With("", SetTo.Value(""));
-
-            Assert.Equal(@"{"""":""""}", document);
-        }
-        
         [Fact]
         public void AddingPropertiesWithValues_PropertiesAppearInJson()
         {
@@ -27,5 +16,14 @@ namespace csMACnz.FluentJsonBuilder.Tests
             Assert.Equal(@"{""first"":""test1"",""second"":""test2"",""third"":true}", document);
         }
 
+        [Fact]
+        public void SettingEmptyStringProperty_JsonContainsEmptyPropertyName()
+        {
+            string document = JsonBuilder
+                .CreateObject()
+                .With("", SetTo.Value(""));
+
+            Assert.Equal(@"{"""":""""}", document);
+        }
     }
 }

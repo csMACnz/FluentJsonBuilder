@@ -1,15 +1,13 @@
-using System;
 using Xunit;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
     public class CreateObjectTests
     {
-
         [Fact]
         public void ImplicitCastInAssertWorksCorrectly()
         {
-            JsonObjectBuilder document = JsonBuilder.CreateObject();
+            var document = JsonBuilder.CreateObject();
             Assert.Equal("{}", document);
         }
 

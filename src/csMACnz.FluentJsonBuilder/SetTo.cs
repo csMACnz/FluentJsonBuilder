@@ -5,11 +5,6 @@ namespace csMACnz.FluentJsonBuilder
 {
     public static class SetTo
     {
-        public static Modifier Value(JToken v)
-        {
-            return new Modifier(_ => v);
-        }
-
         public static Modifier.ModifierFunc Null => () => new Modifier(_ => null);
 
         public static Modifier.ModifierFunc RandomGuid => () =>
@@ -17,20 +12,16 @@ namespace csMACnz.FluentJsonBuilder
             return new Modifier(_ => Guid.NewGuid().ToString().ToUpper());
         };
 
-        public static Modifier.ModifierFunc True => () =>
-        {
-            return new Modifier(_ => true);
-        };
+        public static Modifier.ModifierFunc True => () => { return new Modifier(_ => true); };
 
-        public static Modifier.ModifierFunc False => () =>
-        {
-            return new Modifier(_ => false);
-        };
+        public static Modifier.ModifierFunc False => () => { return new Modifier(_ => false); };
 
-        public static Modifier.ModifierFunc AnEmptyArray => () =>
+        public static Modifier.ModifierFunc AnEmptyArray => () => { return new Modifier(_ => new JArray()); };
+
+        public static Modifier Value(JToken v)
         {
-            return new Modifier(_ => new JArray());
-        };
+            return new Modifier(_ => v);
+        }
 
         public static Modifier AnArrayContaining(params Action<JsonObjectBuilder>[] setValues)
         {

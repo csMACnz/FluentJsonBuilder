@@ -1,15 +1,15 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace csMACnz.FluentJsonBuilder
 {
     public abstract class JsonObjectBuilder<T>
-    where T : JsonObjectBuilder<T>
+        where T : JsonObjectBuilder<T>
     {
         private JObject Data;
+
         protected JsonObjectBuilder()
-        : this(new JObject())
+            : this(new JObject())
         {
         }
 
@@ -22,6 +22,7 @@ namespace csMACnz.FluentJsonBuilder
         {
             return Data;
         }
+
         internal void Rebase(JObject item)
         {
             Data = item;
@@ -40,13 +41,13 @@ namespace csMACnz.FluentJsonBuilder
         public T Without(string propertyName)
         {
             Data.Remove(propertyName);
-            return (T)this;
+            return (T) this;
         }
 
         public T With(string propertyName, Modifier modifier)
         {
             Data[propertyName] = modifier.Modify(Data.TryGetValue(propertyName, out var token) ? token : null);
-            return (T)this;
+            return (T) this;
         }
 
         public T And(string propertyName, Modifier valueTarget)
@@ -72,7 +73,7 @@ namespace csMACnz.FluentJsonBuilder
         }
 
         public JsonObjectBuilder(JObject j)
-        : base(j)
+            : base(j)
         {
         }
     }

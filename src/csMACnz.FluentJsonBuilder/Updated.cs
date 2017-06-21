@@ -18,7 +18,7 @@ namespace csMACnz.FluentJsonBuilder
             return new Modifier(
                 array =>
                 {
-                    JObject item = (JObject)((JArray)array)[index];
+                    var item = (JObject) ((JArray) array)[index];
                     var builder = new TItemBuilder();
                     builder.Rebase(item);
                     update(builder);
@@ -31,7 +31,7 @@ namespace csMACnz.FluentJsonBuilder
             return new Modifier(
                 token =>
                 {
-                    var array = (JArray)token;
+                    var array = (JArray) token;
                     array.RemoveAt(index);
                     return array;
                 });

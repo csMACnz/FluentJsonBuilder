@@ -1,12 +1,9 @@
 using Xunit;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace csMACnz.FluentJsonBuilder.Tests
 {
     public class UpdateTests
     {
-
         [Fact]
         public void UpdateAllowsToModifyExistingSetValue()
         {
@@ -26,7 +23,7 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 .CreateObject()
                 .With("first", SetTo.Value("test1"))
                 .And("second", SetTo.Value(true))
-                .And("second", Updated.By<bool>(v => !v ));
+                .And("second", Updated.By<bool>(v => !v));
 
             Assert.Equal(@"{""first"":""test1"",""second"":false}", document);
         }
