@@ -21,19 +21,22 @@ namespace csMACnz.FluentJsonBuilder.Tests
             string document = ComplexObject
             .Create()
             .WithId(SetTo.Value("ID123"))
-            .WithTags(
-                tag1 => tag1
-                    .WithKey(SetTo.Value("Importance"))
-                    .WithValue(SetTo.Value("High")),
-                tag2 => tag2
-                    .WithKey(SetTo.Value("Level"))
-                    .WithValue(SetTo.Value("Medium")),
-                tag3 => tag3
-                    .WithKey(SetTo.Value("Games"))
-                    .WithValue(SetTo.Null))
+            .WithItems(
+                item => item
+                .WithId(SetTo.Value("ARandomGuid"))
+                .WithTags(
+                    tag1 => tag1
+                        .WithKey(SetTo.Value("Importance"))
+                        .WithValue(SetTo.Value("High")),
+                    tag2 => tag2
+                        .WithKey(SetTo.Value("Level"))
+                        .WithValue(SetTo.Value("Medium")),
+                    tag3 => tag3
+                        .WithKey(SetTo.Value("Games"))
+                        .WithValue(SetTo.Null)))
             .WithName(SetTo.Value("Test"));
 
-            Assert.Equal(@"{""id"":""ID123"",""tags"":[{""key"":""Importance"",""value"":""High""},{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}],""name"":""Test""}", document);
+            Assert.Equal(@"{""id"":""ID123"",""items"":[{""id"":""ARandomGuid"",""tags"":[{""key"":""Importance"",""value"":""High""},{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}]}],""name"":""Test""}", document);
         }
 
         [Fact]
@@ -42,22 +45,26 @@ namespace csMACnz.FluentJsonBuilder.Tests
             string document = ComplexObject
             .Create()
             .WithId(SetTo.Value("ID123"))
-            .WithTags(
-                tag1 => tag1
-                    .WithKey(SetTo.Value("Importance"))
-                    .WithValue(SetTo.Value("High")),
-                tag2 => tag2
-                    .WithKey(SetTo.Value("Level"))
-                    .WithValue(SetTo.Null),
-                tag3 => tag3
-                    .WithKey(SetTo.Value("Games"))
-                    .WithValue(SetTo.Null))
+            .WithItems(
+                item => item
+                .WithId(SetTo.Value("ARandomGuid"))
+                .WithTags(
+                    tag1 => tag1
+                        .WithKey(SetTo.Value("Importance"))
+                        .WithValue(SetTo.Value("High")),
+                    tag2 => tag2
+                        .WithKey(SetTo.Value("Level"))
+                        .WithValue(SetTo.Null),
+                    tag3 => tag3
+                        .WithKey(SetTo.Value("Games"))
+                        .WithValue(SetTo.Null)))
             .WithName(SetTo.Value("Test"))
-            .UpdateExistingTagAtIndex(1,
-                tag2 => tag2
-                    .WithValue(SetTo.Value("Medium")));
+            .UpdateExistingTagAtIndex(0,
+                item => item
+                    .UpdateExistingTagAtIndex(1, tag=>tag.WithValue(SetTo.Value("Medium")))
+                    .WithTags(Updated.ByRemovingAtIndex(0)));
 
-            Assert.Equal(@"{""id"":""ID123"",""tags"":[{""key"":""Importance"",""value"":""High""},{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}],""name"":""Test""}", document);
+            Assert.Equal(@"{""id"":""ID123"",""items"":[{""id"":""ARandomGuid"",""tags"":[{""key"":""Level"",""value"":""Medium""},{""key"":""Games"",""value"":null}]}],""name"":""Test""}", document);
         }
 
         private class ComplexObject : JsonObjectBuilder<ComplexObject>
@@ -77,12 +84,50 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 return With("name", setTo);
             }
 
-            internal ComplexObject WithTags(params Action<TagObject>[] initialisers)
+            internal ComplexObject WithItems(params Action<ItemObject>[] initialisers)
+            {
+                return With("items", SetTo.AnArrayContaining<ItemObject>(initialisers));
+            }
+
+            internal ComplexObject UpdateExistingTagAtIndex(int index, Action<ItemObject> update)
+            {
+                return With("items", Updated.AtIndex<ItemObject>(index, update));
+            }
+        }
+
+
+        private class ItemObject : JsonObjectBuilder<ItemObject>
+        {
+            internal ItemObject WithId(SetTo setTo)
+            {
+                return With("id", setTo);
+            }
+            internal ItemObject WithId(Updated update)
+            {
+                return With("id", update);
+            }
+
+            internal ItemObject WithName(SetTo setTo)
+            {
+                return With("name", setTo);
+            }
+
+            internal ItemObject WithName(Updated update)
+            {
+                return With("name", update);
+            }
+
+            internal ItemObject WithTags(params Action<TagObject>[] initialisers)
             {
                 return With("tags", SetTo.AnArrayContaining<TagObject>(initialisers));
             }
-            
-            internal ComplexObject UpdateExistingTagAtIndex(int index, Action<TagObject> update)
+
+            internal ItemObject WithTags(Updated updated)
+            {
+                return With("tags", updated);
+            }
+
+            internal ItemObject UpdateExistingTagAtIndex(int index, Action<TagObject> update)
             {
                 return With("tags", Updated.AtIndex<TagObject>(index, update));
             }
