@@ -3,7 +3,7 @@
 <PropertyGroup>
     <Company>Xero</Company>
     <Product>XOBot</Product>
-    <Copyright>Copyright © csMAcnz 2017</Copyright>
+    <Copyright>Copyright © csMACnz 2017</Copyright>
     <Description>Tests for FluentJsonBuilder</Description>
     <AssemblyTitle>Tests for FluentJsonBuilder</AssemblyTitle>
     <NeutralLanguage>en-NZ</NeutralLanguage>
@@ -13,6 +13,8 @@
     <DebugType>full</DebugType>
     <AssemblyName>csMACnz.FluentJsonBuilder.Tests</AssemblyName>
     <PackageId>csMACnz.FluentJsonBuilder.Tests</PackageId>
+    <PackageLicenseUrl>https://github.com/csMACnz/FluentJsonBuilder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/csMACnz/FluentJsonBuilder</PackageProjectUrl>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 

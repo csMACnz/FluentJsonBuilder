@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Product>FluentJsonBuilder</Product>
-    <Copyright>Copyright © csMAcnz 2017</Copyright>
+    <Copyright>Copyright © csMACnz 2017</Copyright>
     <Description></Description>
     <AssemblyTitle>FluentJsonBuilder</AssemblyTitle>
     <NeutralLanguage>en-NZ</NeutralLanguage>
@@ -14,6 +14,8 @@
     <DebugType>full</DebugType>
     <AssemblyName>csMACnz.FluentJsonBuilder</AssemblyName>
     <PackageId>csMACnz.FluentJsonBuilder</PackageId>
+    <PackageLicenseUrl>https://github.com/csMACnz/FluentJsonBuilder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/csMACnz/FluentJsonBuilder</PackageProjectUrl>
     <PackageTags>json;fluent;json string</PackageTags>
   </PropertyGroup>
 
