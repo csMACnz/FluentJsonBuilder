@@ -35,19 +35,19 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 return new CustomObject();
             }
 
-            internal CustomObject WithCat(SetTo setTo)
+            internal CustomObject WithCat(Modifier modifer)
             {
-                return With("cat", setTo);
+                return With("cat", modifer);
             }
 
-            internal CustomObject WithId(SetTo setTo)
+            internal CustomObject WithId(Modifier modifier)
             {
-                return With("id", setTo);
+                return With("id", modifier);
             }
 
-            internal CustomObject WithName(SetTo setTo)
+            internal CustomObject WithName(Modifier modifier)
             {
-                return With("name", setTo);
+                return With("name", modifier);
             }
         }
     }

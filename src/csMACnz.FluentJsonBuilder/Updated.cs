@@ -3,26 +3,19 @@ using Newtonsoft.Json.Linq;
 
 namespace csMACnz.FluentJsonBuilder
 {
-    public class Updated
+    public static class Updated
     {
-        Func<JToken, JToken> _function;
-
-        private Updated(Func<JToken, JToken> function)
-        {
-            _function = function;
-        }
-
-        public static Updated AtIndex(int index, Action<JsonObjectBuilder> update)
+        public static Modifier AtIndex(int index, Action<JsonObjectBuilder> update)
         {
             return AtIndex<JsonObjectBuilder>(index, update);
         }
 
-        public static Updated AtIndex<TItemBuilder>(
+        public static Modifier AtIndex<TItemBuilder>(
             int index,
             Action<TItemBuilder> update)
             where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
         {
-            return new Updated(
+            return new Modifier(
                 array =>
                 {
                     JObject item = (JObject)((JArray)array)[index];
@@ -33,9 +26,9 @@ namespace csMACnz.FluentJsonBuilder
                 });
         }
 
-        public static Updated ByRemovingAtIndex(int index)
+        public static Modifier ByRemovingAtIndex(int index)
         {
-            return new Updated(
+            return new Modifier(
                 token =>
                 {
                     var array = (JArray)token;
@@ -44,19 +37,14 @@ namespace csMACnz.FluentJsonBuilder
                 });
         }
 
-        public static Updated By(Func<JToken, JToken> update)
+        public static Modifier By(Func<JToken, JToken> update)
         {
-            return new Updated(update);
+            return new Modifier(update);
         }
 
-        public static Updated By<T>(Func<T, JToken> update)
+        public static Modifier By<T>(Func<T, JToken> update)
         {
-            return new Updated(v => update(v.Value<T>()));
-        }
-
-        public JToken Update(JToken jToken)
-        {
-            return _function(jToken);
+            return new Modifier(v => update(v.Value<T>()));
         }
     }
 }

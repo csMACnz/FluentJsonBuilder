@@ -43,26 +43,15 @@ namespace csMACnz.FluentJsonBuilder
             return (T)this;
         }
 
-        public T With(string propertyName, SetTo valueTarget)
+        public T With(string propertyName, Modifier modifier)
         {
-            Data[propertyName] = valueTarget.GetValue();
+            Data[propertyName] = modifier.Modify(Data.TryGetValue(propertyName, out var token) ? token : null);
             return (T)this;
         }
 
-        public T And(string propertyName, SetTo valueTarget)
+        public T And(string propertyName, Modifier valueTarget)
         {
             return With(propertyName, valueTarget);
-        }
-
-        public T With(string propertyName, Updated updateTarget)
-        {
-            Data[propertyName] = updateTarget.Update(Data[propertyName]);
-            return (T)this;
-        }
-
-        public T And(string propertyName, Updated updateTarget)
-        {
-            return With(propertyName, updateTarget);
         }
 
         public static implicit operator string(JsonObjectBuilder<T> builder)

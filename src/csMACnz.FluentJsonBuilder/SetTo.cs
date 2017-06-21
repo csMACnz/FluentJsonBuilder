@@ -3,61 +3,44 @@ using Newtonsoft.Json.Linq;
 
 namespace csMACnz.FluentJsonBuilder
 {
-    public class SetTo
+    public static class SetTo
     {
-        Func<JToken> _function;
-
-        private SetTo(Func<JToken> function)
+        public static Modifier Value(JToken v)
         {
-            _function = function;
+            return new Modifier(_ => v);
         }
 
-        public static SetTo Value(JToken v)
-        {
-            return new SetTo(() => v);
-        }
+        public static Modifier.ModifierFunc Null => () => new Modifier(_ => null);
 
-        public static SetToFunc Null => () => new SetTo(() => null);
-
-        public static SetToFunc RandomGuid => () =>
+        public static Modifier.ModifierFunc RandomGuid => () =>
         {
-            return new SetTo(() => Guid.NewGuid().ToString().ToUpper());
+            return new Modifier(_ => Guid.NewGuid().ToString().ToUpper());
         };
 
-        public static SetToFunc True => () =>
+        public static Modifier.ModifierFunc True => () =>
         {
-            return new SetTo(() => true);
+            return new Modifier(_ => true);
         };
 
-        public static SetToFunc False => () =>
+        public static Modifier.ModifierFunc False => () =>
         {
-            return new SetTo(() => false);
+            return new Modifier(_ => false);
         };
 
-        public static SetToFunc AnEmptyArray => () =>
+        public static Modifier.ModifierFunc AnEmptyArray => () =>
         {
-            return new SetTo(() => new JArray());
+            return new Modifier(_ => new JArray());
         };
 
-        public JToken GetValue()
-        {
-            return _function();
-        }
-        public delegate SetTo SetToFunc();
-        public static implicit operator SetTo(SetToFunc valueFunc)
-        {
-            return valueFunc();
-        }
-
-        public static SetTo AnArrayContaining(params Action<JsonObjectBuilder>[] setValues)
+        public static Modifier AnArrayContaining(params Action<JsonObjectBuilder>[] setValues)
         {
             return AnArrayContaining<JsonObjectBuilder>(setValues);
         }
 
-        public static SetTo AnArrayContaining<TItemBuilder>(params Action<TItemBuilder>[] setValues)
+        public static Modifier AnArrayContaining<TItemBuilder>(params Action<TItemBuilder>[] setValues)
             where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
         {
-            return new SetTo(() =>
+            return new Modifier(_ =>
             {
                 var jarray = new JArray();
                 foreach (var updateAction in setValues)

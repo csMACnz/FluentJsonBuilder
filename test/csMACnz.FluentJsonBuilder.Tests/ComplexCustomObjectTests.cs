@@ -74,14 +74,14 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 return new ComplexObject();
             }
 
-            internal ComplexObject WithId(SetTo setTo)
+            internal ComplexObject WithId(Modifier modifier)
             {
-                return With("id", setTo);
+                return With("id", modifier);
             }
 
-            internal ComplexObject WithName(SetTo setTo)
+            internal ComplexObject WithName(Modifier modifier)
             {
-                return With("name", setTo);
+                return With("name", modifier);
             }
 
             internal ComplexObject WithItems(params Action<ItemObject>[] initialisers)
@@ -95,26 +95,16 @@ namespace csMACnz.FluentJsonBuilder.Tests
             }
         }
 
-
         private class ItemObject : JsonObjectBuilder<ItemObject>
         {
-            internal ItemObject WithId(SetTo setTo)
+            internal ItemObject WithId(Modifier modifier)
             {
-                return With("id", setTo);
-            }
-            internal ItemObject WithId(Updated update)
-            {
-                return With("id", update);
+                return With("id", modifier);
             }
 
-            internal ItemObject WithName(SetTo setTo)
+            internal ItemObject WithName(Modifier modifier)
             {
-                return With("name", setTo);
-            }
-
-            internal ItemObject WithName(Updated update)
-            {
-                return With("name", update);
+                return With("name", modifier);
             }
 
             internal ItemObject WithTags(params Action<TagObject>[] initialisers)
@@ -122,9 +112,9 @@ namespace csMACnz.FluentJsonBuilder.Tests
                 return With("tags", SetTo.AnArrayContaining<TagObject>(initialisers));
             }
 
-            internal ItemObject WithTags(Updated updated)
+            internal ItemObject WithTags(Modifier modifier)
             {
-                return With("tags", updated);
+                return With("tags", modifier);
             }
 
             internal ItemObject UpdateExistingTagAtIndex(int index, Action<TagObject> update)
@@ -146,13 +136,13 @@ namespace csMACnz.FluentJsonBuilder.Tests
             {
             }
 
-            internal TagObject WithKey(SetTo setTo)
+            internal TagObject WithKey(Modifier modifier)
             {
-                return With("key", setTo);
+                return With("key", modifier);
             }
-            internal TagObject WithValue(SetTo setTo)
+            internal TagObject WithValue(Modifier modifier)
             {
-                return With("value", setTo);
+                return With("value", modifier);
             }
         }
     }
