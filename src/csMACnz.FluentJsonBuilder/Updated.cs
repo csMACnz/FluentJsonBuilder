@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace csMACnz.FluentJsonBuilder
@@ -58,14 +60,43 @@ namespace csMACnz.FluentJsonBuilder
             return new Modifier(token =>
             {
                 var jarray = (JArray)token;
-                foreach (var updateAction in setValues)
+                foreach (var item in BuildItems<TItemBuilder>(setValues))
                 {
-                    var itemBuilder = new TItemBuilder();
-                    updateAction(itemBuilder);
-                    jarray.Add(itemBuilder.GetObject());
+                    jarray.Add(item);
                 }
                 return jarray;
             });
+        }
+
+        public static Modifier WithArrayItemsInsertedAtIndex(int index, params Action<JsonObjectBuilder>[] setValues)
+        {
+            return WithArrayItemsInsertedAtIndex<JsonObjectBuilder>(index, setValues);
+        }
+
+        public static Modifier WithArrayItemsInsertedAtIndex<TItemBuilder>(int index, params Action<TItemBuilder>[] setValues)
+            where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
+        {
+            return new Modifier(token =>
+            {
+                var jarray = (JArray)token;
+                var items = BuildItems<TItemBuilder>(setValues);
+                for (var i = setValues.Length - 1; i >= 0; i--)
+                {
+                    jarray.Insert(index, items[i]);
+                }
+                return jarray;
+            });
+        }
+
+        private static List<JObject> BuildItems<TItemBuilder>(Action<TItemBuilder>[] setValues)
+            where TItemBuilder : JsonObjectBuilder<TItemBuilder>, new()
+        {
+            return setValues.Select(update =>
+            {
+                var itemBuilder = new TItemBuilder();
+                update(itemBuilder);
+                return itemBuilder.GetObject();
+            }).ToList();
         }
     }
 }
